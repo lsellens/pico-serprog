@@ -6,7 +6,7 @@ other RP2040 based boards. Based on
 Further improved by kukrimate ![here](https://github.com/kukrimate/pico-serprog).
 And me (Riku\_V) here.
 
-Pre-compiled binaries binaries can be downloaded from the
+Pre-compiled binaries can be downloaded from the
 ![Libreboot project](https://libreboot.org/download.html#https).
 
 For a guide on how to flash a chip see
@@ -33,7 +33,7 @@ make
 
 Plug in your Pico. Mount it as you would any other USB flash drive.
 Copy `pico_serprog.uf2` into it. Your programmer is now ready.
-If you want to change the firwmare, you need to press the button
+If you want to change the firmware, you need to press the button
 on the board while you plug it in.
 
 ## Usage
