@@ -174,7 +174,8 @@ void s_cmd_s_bustype() {
 
 void s_cmd_o_spiop() {
 	static uint8_t buf[4096];
-	uint32_t wlen, rlen;
+	uint32_t wlen = 0;
+	uint32_t rlen = 0;
 	readbytes_blocking(&wlen, 3);
 	readbytes_blocking(&rlen, 3);
 
