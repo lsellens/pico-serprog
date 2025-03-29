@@ -15,8 +15,13 @@
 #include "pico/stdlib.h"
 #include "pico/binary_info.h"
 #include "hardware/spi.h"
-#include "tusb.h"
+#include "pico/binary_info.h"
+#ifdef CYW43_WL_GPIO_LED_PIN
+#include "pico/cyw43_arch.h"
+#endif
+#include "pico/stdlib.h"
 #include "serprog.h"
+#include "tusb.h"
 
 #define CDC_ITF     0           /* USB CDC interface no */
 
@@ -62,13 +67,27 @@ static void pullup_cs(uint pin) {
 	gpio_pull_up(pin);
 }
 
-static void enable_spi() {
+static void set_led(int state) {
+#ifdef CYW43_WL_GPIO_LED_PIN
+	cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, state);
+#endif
+#ifdef PICO_DEFAULT_LED_PIN
+	gpio_put(PICO_DEFAULT_LED_PIN, state);
+#endif
+}
+
+static void enable_led() {
+#ifdef CYW43_WL_GPIO_LED_PIN
+	cyw43_arch_init();
+#endif
 #ifdef PICO_DEFAULT_LED_PIN
 	/* Setup status LED */
 	gpio_init(PICO_DEFAULT_LED_PIN);
 	gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
 #endif
+}
 
+static void enable_spi() {
 	/* Setup default CS as output, others as inputs with pull-ups */
 	for (uint8_t i = SPI_CS_0+1; i<SPI_CS_0+NUM_CS_AVAILABLE; i++) {
 	    gpio_init(i);
@@ -244,9 +263,7 @@ void s_cmd_s_spi_cs() {
 static void command_loop() {
 	while (1) {
 		uint8_t cmd = readbyte_blocking();
-#ifdef PICO_DEFAULT_LED_PIN
-		gpio_put(PICO_DEFAULT_LED_PIN, 1);
-#endif
+		set_led(1);
 		switch (cmd) {
 		case S_CMD_NOP:
 			sendbyte_blocking(S_ACK);
@@ -298,9 +315,7 @@ static void command_loop() {
 
 		tud_cdc_n_write_flush(CDC_ITF);
 
-#ifdef PICO_DEFAULT_LED_PIN
-		gpio_put(PICO_DEFAULT_LED_PIN, 0);
-#endif
+		set_led(0);
 	}
 }
 
@@ -319,6 +334,8 @@ int main() {
 	bi_decl(bi_1pin_with_name(SPI_CS_0+2, "CS_2"));
 	bi_decl(bi_1pin_with_name(SPI_CS_0+3, "CS_3"));
 
+	/* Enable status LED */
+	enable_led();
 	/* Setup USB */
 	tusb_init();
 	/* Setup PL022 SPI */
