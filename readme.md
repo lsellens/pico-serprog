@@ -1,16 +1,17 @@
 # pico-serprog
 
+This is a clone of https://codeberg.org/libreboot/pico-serprog
+
 Slightly less terrible serprog implementation for the Raspberry Pi Pico and
-other RP2040 based boards. Based on
-![pico-serprog by stacksmashing](https://github.com/stacksmashing/pico-serprog/).
-Further improved by kukrimate ![here](https://github.com/kukrimate/pico-serprog).
-And me (Riku\_V) here.
+other RP2040 based boards. Based on [pico-serprog by stacksmashing.](https://github.com/stacksmashing/pico-serprog/)
+Further improved by [kukrimate](https://github.com/kukrimate/pico-serprog)
+And [Riku\_V](https://codeberg.org/libreboot/pico-serprog).
 
 Pre-compiled binaries can be downloaded from the
-![Libreboot project](https://libreboot.org/download.html#https).
+https://libreboot.org/download.html#https
 
 For a guide on how to flash a chip see
-![this page](https://libreboot.org/docs/install/spi.html#raspberry-pi-pico).
+https://libreboot.org/docs/install/spi.html#raspberry-pi-pico
 
 This takes about 17 seconds to read the 8MiB BIOS chip of an X200.
 
